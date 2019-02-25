@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Students from './components/Students';
-import Header from './components/Header';
+import Dummy from './components/Dummy';
+import Navbar from './components/Navbar';
 import MonggoPesan from './challenges/MonggoPesan';
+import Inputs from './components/Inputs';
 import 'antd/dist/antd.css';
+import Student from './components/Student';
+import { Layout, Row } from 'antd';
+import { Provider } from './context';
 class App extends Component {
   render() {
     // const name = 'Budi'
@@ -19,12 +24,13 @@ class App extends Component {
     //   math = null
     // }
     return (
-      <div>
-        {/* <Header title={"Students' List"} /> */}
-        {/* {showHello ? <p>Hello {name}</p> : null}
+      <Provider>
+        <div>
+          {/* <Header title={"Students' List"} /> */}
+          {/* {showHello ? <p>Hello {name}</p> : null}
         <p>1 + 1 = {showCount ? 1 + 1 : 'Belum dihitung'}</p>
         <p>{math}</p> */}
-        {/* <Students
+          {/* <Students
           name='Muhamad Yusril Saputra'
           email="yusrilxanaxal244@gmail.com"
           phone="081285338980"
@@ -39,8 +45,19 @@ class App extends Component {
           email="yusrilxanaxal244@gmail.com"
           phone="081285338980"
         /> */}
-        <MonggoPesan />
-      </div>
+          {/* <MonggoPesan /> */}
+          <Navbar />
+          <Layout>
+            {/* <Inputs /> */}
+          </Layout>
+          <Layout>
+            <Row type="flex" justify="start">
+              <Students />
+            </Row>
+          </Layout>
+          <Dummy />
+        </div>
+      </Provider>
     );
   }
 }
