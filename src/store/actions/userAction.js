@@ -9,9 +9,9 @@ export const logIn = (logData) => async dispatch => {
     localStorage.setItem('token', res.data.token)
     localStorage.setItem('logged', true)
     window.location.href = '/student'
-    dispatch({
+    await dispatch({
         type: LOG_IN,
-        payload: res.data.token
+        payload: res.data
     })
 }
 export const logOut = () => async dispatch => {

@@ -19,11 +19,12 @@ class AddStudents extends Component {
     }
     componentDidMount() {
         this.props.getUser()
-        const { isAuthenticated } = this.props
+        const { isAuthenticated, token } = this.props
         // if (!isAuthenticated) {
         //     this.props.history.push("/student")
         // }
         console.log(isAuthenticated)
+        console.log(token)
     }
     onChange = (e) => this.setState({
         [e.target.name]: e.target.value
@@ -95,7 +96,8 @@ class AddStudents extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    isAuthenticated: state.user.isAuthenticated
+    isAuthenticated: state.user.isAuthenticated,
+    token: state.user.token
 })
 // export default AddStudents;
 export default connect(mapStateToProps, { addStudent, getUser })(AddStudents)
