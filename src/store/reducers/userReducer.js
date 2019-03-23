@@ -1,7 +1,7 @@
 import { LOG_IN, LOG_OUT, GET_USER } from '../actions/type';
 const initialState = {
     isAuthenticated: false,
-    token: {}
+    token: null
 }
 
 export default function (state = initialState, action) {
@@ -21,8 +21,8 @@ export default function (state = initialState, action) {
         case GET_USER:
             return {
                 ...state,
-                isAuthenticated: state.isAuthenticated,
-                token: state.token
+                isAuthenticated: localStorage.getItem('logged'),
+                token: localStorage.getItem('token')
             }
         default:
             return state

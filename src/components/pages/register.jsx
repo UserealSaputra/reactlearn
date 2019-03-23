@@ -42,30 +42,45 @@ class RegistrationForm extends Component {
             password: "",
             name: "",
             handphone: "",
-            address: ""
+            address: "",
+            disabled: true,
         }
     }
-    handleSubmit = (e) => {
+    checkValid = () => {
+        const { email, password, name, handphone, address } = this.state
+        if (email === "" || password === "" || name === "" || handphone === "" || address === "") {
+            this.setState({
+                disabled: true
+            })
+        } else {
+            this.setState({
+                disabled: false
+            })
+        }
+    }
+    handleSubmit = async (e) => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                // console.log('Received values of form: ', values);
-                const ex_link = "https://cors-anywhere.herokuapp.com/";
-                axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-                const res = axios.post(`${ex_link}https://node-student.herokuapp.com/api/student/signup`, {
-                    email: this.state.email,
-                    password: this.state.password,
-                    name: this.state.name,
-                    handphone: this.state.handphone,
-                    address: this.state.address
-                })
-                console.log(res.data)
-                this.props.logIn({
-                    email: this.state.email,
-                    password: this.state.password,
-                })
-            }
-        });
+        // this.props.form.validateFieldsAndScroll((err, values) => {
+        //     if (!err) {
+        // console.log('Received values of form: ', values);
+        const ex_link = "https://cors-anywhere.herokuapp.com/";
+        await axios.post(`${ex_link}https://node-student.herokuapp.com/api/student/signup`, {
+            email: this.state.email,
+            password: this.state.password,
+            name: this.state.name,
+            handphone: this.state.handphone,
+            address: this.state.address
+        }).then(res => {
+            console.log(res.data)
+            this.props.logIn({
+                email: this.state.email,
+                password: this.state.password,
+            })
+        })
+        // this.props.history.push('/student')
+        window.location.href = '/student'
+        //     }
+        // });
     }
 
     handleConfirmBlur = (e) => {
@@ -149,9 +164,12 @@ class RegistrationForm extends Component {
                             required: true, message: 'Please input your E-mail!',
                         }],
                     })(
-                        <Input onChange={(e) => this.setState({
-                            email: e.target.value
-                        })} />
+                        <Input onChange={async (e) => {
+                            await this.setState({
+                                email: e.target.value
+                            });
+                            this.checkValid()
+                        }} />
                     )}
                 </Form.Item>
                 <Form.Item
@@ -164,9 +182,7 @@ class RegistrationForm extends Component {
                             validator: this.validateToNextPassword,
                         }],
                     })(
-                        <Input type="password" onChange={(e) => this.setState({
-                            password: e.target.value
-                        })} />
+                        <Input type="password" />
                     )}
                 </Form.Item>
                 <Form.Item
@@ -179,7 +195,13 @@ class RegistrationForm extends Component {
                             validator: this.compareToFirstPassword,
                         }],
                     })(
-                        <Input type="password" onBlur={this.handleConfirmBlur} />
+                        <Input type="password" onBlur={this.handleConfirmBlur}
+                            onChange={async (e) => {
+                                await this.setState({
+                                    password: e.target.value
+                                });
+                                this.checkValid()
+                            }} />
                     )}
                 </Form.Item>
                 <Form.Item
@@ -195,17 +217,23 @@ class RegistrationForm extends Component {
                     {getFieldDecorator('nickname', {
                         rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
                     })(
-                        <Input onChange={(e) => this.setState({
-                            name: e.target.value
-                        })} />
+                        <Input onChange={async (e) => {
+                            await this.setState({
+                                name: e.target.value
+                            });
+                            this.checkValid()
+                        }} />
                     )}
                 </Form.Item>
                 <Form.Item
                     label="Address"
                 >
-                    <Input onChange={(e) => this.setState({
-                        address: e.target.value
-                    })} />
+                    <Input onChange={async (e) => {
+                        await this.setState({
+                            address: e.target.value
+                        });
+                        this.checkValid()
+                    }} />
                     {/* {getFieldDecorator('residence', {
                         initialValue: ['zhejiang', 'hangzhou', 'xihu'],
                         rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
@@ -220,13 +248,16 @@ class RegistrationForm extends Component {
                         rules: [{ required: true, message: 'Please input your phone number!' }],
                     })(
                         // <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-                        <Input onChange={(e) => this.setState({
-                            handphone: e.target.value
-                        })} />
+                        <Input onChange={async (e) => {
+                            await this.setState({
+                                handphone: e.target.value
+                            });
+                            this.checkValid()
+                        }} />
                     )}
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Register</Button>
+                    <Button type="primary" htmlType="submit" disabled={this.state.disabled}>Register</Button>
                 </Form.Item>
             </Form>
         );

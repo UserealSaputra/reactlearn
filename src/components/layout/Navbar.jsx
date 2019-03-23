@@ -19,7 +19,7 @@ const Navbar = props => {
                     style={{ lineHeight: '64px' }}
                 >
                     <Menu.Item key="1"><Link to="/student">{props.title}</Link></Menu.Item>
-                    {localStorage.getItem('logged') === "false" ?
+                    {props.isAuthenticated === false ?
                         <Menu.Item key="li1"><Link to="/">Login</Link></Menu.Item> :
                         <Menu.Item key="lo1" onClick={() => {
                             props.logOut()
@@ -42,4 +42,8 @@ Navbar.defaultProps = {
 //     color: 'green',
 //     fontSize: '20px'
 // }
-export default connect(null, { logOut })(Navbar)
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.user.isAuthenticated,
+    token: state.user.token
+})
+export default connect(mapStateToProps, { logOut })(Navbar)

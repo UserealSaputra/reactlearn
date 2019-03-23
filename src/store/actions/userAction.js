@@ -5,14 +5,13 @@ export const logIn = (logData) => async dispatch => {
     console.log(logData)
     const ex_link = "https://cors-anywhere.herokuapp.com/";
     const res = await axios.post(`${ex_link}https://node-student.herokuapp.com/api/student/signin`, logData)
+    await dispatch({
+        type: LOG_IN,
+        payload: res.data.token
+    })
     console.log(res.data)
     localStorage.setItem('token', res.data.token)
     localStorage.setItem('logged', true)
-    window.location.href = '/student'
-    await dispatch({
-        type: LOG_IN,
-        payload: res.data
-    })
 }
 export const logOut = () => async dispatch => {
     // const res = await axios.post(`https://node-student.herokuapp.com/api/student/signin`, )

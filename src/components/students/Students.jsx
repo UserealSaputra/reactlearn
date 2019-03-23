@@ -5,7 +5,7 @@ import { Row, Layout } from 'antd';
 import { connect } from 'react-redux';
 import { GET_STUDENT, GET_STUDENTS } from '../../store/actions/type';
 import { getStudents } from '../../store/actions/studentAction';
-
+import { getUser } from '../../store/actions/userAction';
 class Students extends Component {
     constructor(props) {
         super(props);
@@ -59,7 +59,8 @@ class Students extends Component {
     //     })
     // }
     componentDidMount() {
-        this.props.getStudents()
+        this.props.getStudents();
+        this.props.getUser();
         console.log('Reloaded')
     }
     render() {
@@ -91,4 +92,4 @@ const mapStateToProps = (state) => ({
     students: state.student.students
 })
 
-export default connect(mapStateToProps, { getStudents })(Students)
+export default connect(mapStateToProps, { getStudents, getUser })(Students)

@@ -16,6 +16,9 @@ class EditStudents extends Component {
         }
     }
     async componentDidMount() {
+        if (this.props.isAuthenticated === false) {
+            this.props.history.push("/student")
+        }
         const { id } = this.props.match.params;
         console.log(id)
         const res = await axios
@@ -77,7 +80,7 @@ class EditStudents extends Component {
             // errors: ''
         })
         // redirect to home
-        this.props.history.push('/');
+        this.props.history.push('/student');
     }
 
     render() {
@@ -101,5 +104,8 @@ class EditStudents extends Component {
         )
     }
 }
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.user.isAuthenticated,
+})
 
-export default connect(null, { updateStudent })(EditStudents)
+export default connect(mapStateToProps, { updateStudent })(EditStudents)

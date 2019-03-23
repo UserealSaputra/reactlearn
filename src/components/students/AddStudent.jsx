@@ -18,11 +18,11 @@ class AddStudents extends Component {
         }
     }
     componentDidMount() {
-        this.props.getUser()
+        // this.props.getUser()
         const { isAuthenticated, token } = this.props
-        // if (!isAuthenticated) {
-        //     this.props.history.push("/student")
-        // }
+        if (isAuthenticated === false) {
+            this.props.history.push("/student")
+        }
         console.log(isAuthenticated)
         console.log(token)
     }
@@ -100,4 +100,4 @@ const mapStateToProps = (state) => ({
     token: state.user.token
 })
 // export default AddStudents;
-export default connect(mapStateToProps, { addStudent, getUser })(AddStudents)
+export default connect(mapStateToProps, { addStudent })(AddStudents)
