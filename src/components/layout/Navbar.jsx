@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Dummy from '../Dummy';
 import { Row, Col, Layout, Menu, Breadcrumb, Icon } from 'antd';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logOut } from '../../store/actions/userAction';
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const Navbar = props => {
@@ -16,11 +18,17 @@ const Navbar = props => {
                     defaultSelectedKeys={['2']}
                     style={{ lineHeight: '64px' }}
                 >
-                    <Menu.Item key="1">{props.title}</Menu.Item>
-                    <Menu.Item key="2"><Link to="/">Home</Link></Menu.Item>
+                    <Menu.Item key="1"><Link to="/student">{props.title}</Link></Menu.Item>
+                    {localStorage.getItem('logged') === "false" ?
+                        <Menu.Item key="li1"><Link to="/">Login</Link></Menu.Item> :
+                        <Menu.Item key="lo1" onClick={() => {
+                            props.logOut()
+                        }}>Logout</Menu.Item>
+                    }
+                    <Menu.Item key="rg1"><Link to="/register">Register</Link></Menu.Item>
                     <Menu.Item key="3"><Link to="/student/add">Add Student</Link></Menu.Item>
-                    {/* <Menu.Item key="5"><Link to="/student/edit/:id">Edit Student</Link></Menu.Item> */}
                     <Menu.Item key="4"><Link to="/about">About</Link></Menu.Item>
+                    {/* <Menu.Item key="5"><Link to="/student/edit/:id">Edit Student</Link></Menu.Item> */}
                     {/* <Menu.Item key="3"><Dummy /></Menu.Item> */}
                 </Menu>
             </Header>
@@ -34,4 +42,4 @@ Navbar.defaultProps = {
 //     color: 'green',
 //     fontSize: '20px'
 // }
-export default Navbar;
+export default connect(null, { logOut })(Navbar)

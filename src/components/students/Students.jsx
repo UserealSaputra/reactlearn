@@ -64,7 +64,6 @@ class Students extends Component {
     }
     render() {
         const { students } = this.props
-        console.log(students)
         return (
             <React.Fragment>
                 <Layout>

@@ -14,6 +14,8 @@ import NotFound from './components/pages/notfound';
 import { Layout, Row } from 'antd';
 import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
 import EditStudents from './components/students/EditStudent';
+import Login from './components/pages/login';
+import WrappedRegistrationForm from './components/pages/register';
 // Redux Section
 import { Provider } from 'react-redux';
 import store from './store/store'
@@ -36,7 +38,9 @@ class App extends Component {
           <div>
             <Navbar title="studdents list" />
             <Switch>
-              <Route exact path="/" component={Students} />
+              <Route exact path="/" component={Login} />
+              <Route exact path="/register" component={WrappedRegistrationForm} />
+              <Route exact path="/student" component={Students} />
               <Route exact path="/student/add" component={AddStudent} />
               <Route exact path="/about" component={About} />
               <Route exact path="/student/edit/:id" component={EditStudents} />

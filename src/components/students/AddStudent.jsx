@@ -5,6 +5,7 @@ import uuid from 'uuid';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { addStudent } from '../../store/actions/studentAction';
+import { getUser } from '../../store/actions/userAction';
 class AddStudents extends Component {
     constructor(props) {
         super(props);
@@ -12,10 +13,18 @@ class AddStudents extends Component {
             name: '',
             email: '',
             phone: '',
-            errors: {}
+            errors: {},
+            isAuthenticated: '',
         }
     }
-
+    componentDidMount() {
+        this.props.getUser()
+        const { isAuthenticated } = this.props
+        // if (!isAuthenticated) {
+        //     this.props.history.push("/student")
+        // }
+        console.log(isAuthenticated)
+    }
     onChange = (e) => this.setState({
         [e.target.name]: e.target.value
     })
@@ -85,6 +94,8 @@ class AddStudents extends Component {
         )
     }
 }
-
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.user.isAuthenticated
+})
 // export default AddStudents;
-export default connect(null, { addStudent })(AddStudents)
+export default connect(mapStateToProps, { addStudent, getUser })(AddStudents)
